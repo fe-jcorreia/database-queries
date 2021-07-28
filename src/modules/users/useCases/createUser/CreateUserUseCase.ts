@@ -15,7 +15,11 @@ class CreateUserUseCase {
     last_name,
     email,
   }: ICreateUserDTO): Promise<void> {
-    await this.usersRepository.createUser({ first_name, last_name, email });
+    await this.usersRepository.createUser({
+      first_name,
+      last_name,
+      email,
+    });
   }
 }
 

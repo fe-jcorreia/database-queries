@@ -1,9 +1,9 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from "typeorm";
 
-import { User } from '../../../users/entities/User';
-import { Game } from '../../entities/Game';
-
-import { IGamesRepository } from '../IGamesRepository';
+import { User } from "../../../users/entities/User";
+import { ICreateGameDTO } from "../../dtos";
+import { Game } from "../../entities/Game";
+import { IGamesRepository } from "../IGamesRepository";
 
 export class GamesRepository implements IGamesRepository {
   private repository: Repository<Game>;
@@ -12,10 +12,14 @@ export class GamesRepository implements IGamesRepository {
     this.repository = getRepository(Game);
   }
 
+  async createGame({ title }: ICreateGameDTO): Promise<void> {
+    const game = this.repository.create({ title });
+    await this.repository.save(game);
+  }
+
   async findByTitleContaining(param: string): Promise<Game[]> {
-    return this.repository
-      .createQueryBuilder()
-      // Complete usando query builder
+    return this.repository.createQueryBuilder();
+    // Complete usando query builder
   }
 
   async countAllGames(): Promise<[{ count: string }]> {
@@ -23,8 +27,7 @@ export class GamesRepository implements IGamesRepository {
   }
 
   async findUsersByGameId(id: string): Promise<User[]> {
-    return this.repository
-      .createQueryBuilder()
-      // Complete usando query builder
+    return this.repository.createQueryBuilder();
+    // Complete usando query builder
   }
 }
