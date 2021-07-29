@@ -1,5 +1,7 @@
+import { inject, injectable } from "tsyringe";
 import { getRepository, Repository } from "typeorm";
 
+import { IGamesRepository } from "../../../games/repositories/IGamesRepository";
 import {
   IFindUserWithGamesDTO,
   IFindUserByFullNameDTO,
@@ -8,6 +10,7 @@ import {
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../IUsersRepository";
 
+@injectable()
 export class UsersRepository implements IUsersRepository {
   private repository: Repository<User>;
 
@@ -20,7 +23,12 @@ export class UsersRepository implements IUsersRepository {
     last_name,
     email,
   }: ICreateUserDTO): Promise<void> {
-    const user = this.repository.create({ first_name, last_name, email });
+    const user = this.repository.create({
+      first_name,
+      last_name,
+      email,
+    });
+
     await this.repository.save(user);
   }
 
@@ -45,7 +53,8 @@ export class UsersRepository implements IUsersRepository {
     last_name,
   }: IFindUserByFullNameDTO): Promise<User[] | undefined> {
     const users = await this.repository.query(
-      `SELECT * FROM users WHERE LOWER(first_name) = LOWER(${first_name}) AND LOWER(last_name) = LOWER(${last_name})`
+      `SELECT * FROM users WHERE LOWER(first_name) = LOWER($1) AND LOWER(last_name) = LOWER($2)`,
+      [first_name, last_name]
     );
     return users;
   }

@@ -10,7 +10,7 @@ interface IFindUserByFullNameDTO {
 interface ICreateUserDTO {
   first_name: string;
   last_name: string;
-  email: string
+  email: string;
 }
 
 export { IFindUserWithGamesDTO, IFindUserByFullNameDTO, ICreateUserDTO };
