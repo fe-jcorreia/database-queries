@@ -1,7 +1,5 @@
-import { inject, injectable } from "tsyringe";
 import { getRepository, Repository } from "typeorm";
 
-import { IGamesRepository } from "../../../games/repositories/IGamesRepository";
 import {
   IFindUserWithGamesDTO,
   IFindUserByFullNameDTO,
@@ -10,7 +8,6 @@ import {
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../IUsersRepository";
 
-@injectable()
 export class UsersRepository implements IUsersRepository {
   private repository: Repository<User>;
 
